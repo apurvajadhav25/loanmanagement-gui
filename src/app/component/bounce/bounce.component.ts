@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { CustomerService } from 'src/app/service/customer/customer.service';
+import { BounceService } from 'src/app/service/bounce/bounce.service';
+import {CalendarModule} from 'primeng/calendar';
+import { LoanService } from 'src/app/service/loan/loan.service';
 
 @Component({
-  selector: 'app-customer',
-  templateUrl: './customer.component.html',
-  styleUrls: ['./customer.component.css']
+  selector: 'app-bounce',
+  templateUrl: './bounce.component.html',
+  styleUrls: ['./bounce.component.css']
 })
-export class CustomerComponent implements OnInit {
+export class BounceComponent implements OnInit {
 
   editEnabled = false;
   loanForm!: FormGroup;
@@ -15,25 +17,28 @@ export class CustomerComponent implements OnInit {
   isResult: boolean = true;
   submitted = false;
   display: boolean = false;
+  accountNumber: any;
 
-  constructor(private service: CustomerService) { }
+  constructor(private service: BounceService,
+              private loanService: LoanService) {
+                this.loanService.getLoan().subscribe((data)=>{
+                  this.accountNumber = data
+                })
+               }
 
   ngOnInit(): void {
     this.loanForm = new FormGroup({
-      name: new FormControl(''),
-      isActive: new FormControl(''),
-      emailId: new FormControl(''),
-      mobileNumber: new FormControl(''),
-      address: new FormControl(''),
-
+      date: new FormControl(''),
+      accountNumber: new FormControl('')
     })
 
     this.getCustomers();
   }
 
   getCustomers() {
-    this.service.getCustomers().subscribe((data) => {
+    this.service.getBounces().subscribe((data) => {
         this.customers = data;
+        console.log(this.customers)
         if(this.customers.length===0) {
           this.isResult=false;
         } else {
@@ -50,9 +55,11 @@ export class CustomerComponent implements OnInit {
   }
 
   onRowEditSave(customer: any, index: number) {
-    console.log(customer);
+
+    customer.accountNumber = customer.accountNumber.accountNumber
+    console.log(customer.accountNumber)
     this.editEnabled = false;
-    this.service.editCustomer(customer).subscribe((data) => {
+    this.service.editBounce(customer).subscribe((data) => {
     this.getCustomers();
     });
     console.log('Row edit saved');
@@ -66,7 +73,7 @@ export class CustomerComponent implements OnInit {
 
   deleteCustomer(customer: any, index: number) {
     console.log(index);
-    this.service.deleteCustomer(customer).subscribe((data) => {
+    this.service.deleteBounce(customer).subscribe((data) => {
 
     });
     this.ngOnInit();
@@ -82,9 +89,8 @@ export class CustomerComponent implements OnInit {
     if (this.loanForm?.invalid) {
       return;
     }
-    this.service.createCustomer(this.loanForm?.value).subscribe(data=>{
+    this.service.createBounce(this.loanForm?.value).subscribe(data=>{
       this.ngOnInit();
-      console.log(data);
     });
     this.getCustomers();
     this.display=false;

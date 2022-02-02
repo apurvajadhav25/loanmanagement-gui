@@ -1,25 +1,15 @@
-<p-dialog header="Add" [(visible)]="display">
+<p-dialog header="Add" [(visible)]="display" [style] = "{height: '100vw', width: '40vw'}">
     <div>
         <form [formGroup]="loanForm" (ngSubmit)="onSubmit()">
             
             <div class="ui-inputgroup row">
-                <input type="text" formControlName="name" size="30" pInputText placeholder="Name">  
+                <!-- <input type="text" formControlName="date" size="30" pInputText placeholder="Date">  -->
+                <p-calendar formControlName="date"  [showIcon]="true"  dateFormat="yy-mm-dd"></p-calendar> 
             </div>
 
             <div class="ui-inputgroup row">
-                <input type="text" formControlName="emailId" size="30" pInputText placeholder="Email Id">  
-            </div>
-
-            <div class="ui-inputgroup row">
-                <input type="text" formControlName="mobileNumber" size="30" pInputText placeholder="Mobile Number">  
-            </div>
-
-            <div class="ui-inputgroup row">
-                <input type="text" formControlName="address" size="30" pInputText placeholder="address">  
-            </div>
-
-            <div class="ui-inputgroup row">
-                <input type="text" formControlName="isActive" size="30" pInputText placeholder="Is Active">  
+                 <!-- <p-dropdown [options]="accountNumber"  formControlName="accountNumber"  optionLabel="accountNumber"></p-dropdown>  -->
+                <input type="text" formControlName="accountNumber" size="30" pInputText placeholder="Account Number"> 
             </div>
 
             <div class="ui-inputgroup button">
@@ -30,17 +20,18 @@
 </p-dialog>
 
 <div class="add-customer">
-    <button pButton type="button" class="ui-button-add" style="margin-right: .5em" (click)="show()">Add Customer</button>
+    <button pButton type="button" class="ui-button-add" style="margin-right: .5em" (click)="show()">Add Bounce</button>
 </div>
 <div class="data-table">
-    <p-table class="customers" [value]="customers" dataKey="id" editMode="row" [paginator]="true" [rows]="6">
+    <p-table class="customers" [value]="customers" dataKey="id" editMode="row" [paginator]="true" [rows]="6"
+    [globalFilterFields]="['accountNumber']">
         <ng-template pTemplate="header">
             <tr>
-                <th>Name</th>
-                <th>Email Id</th>
-                <th>Mobile Number</th>
-                <th>Address</th>
-                <th>Is Active</th>
+                <th>Date</th>
+                <div class="flex justify-content-center align-items-center">
+                    Account Number
+                    <p-columnFilter type="text" field="accountNumber" display="menu"></p-columnFilter>
+                </div>
                 <th></th>
             </tr>
         </ng-template>
@@ -49,53 +40,27 @@
                 <td>
                     <p-cellEditor>
                         <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="rowData.name">
+                             <input pInputText type="text" [(ngModel)]="rowData.date"> 
                         </ng-template>
                         <ng-template pTemplate="output">
-                            {{rowData.name}}
+                            {{rowData.date}}
                         </ng-template>
                     </p-cellEditor>
                 </td>
+
                 <td>
                     <p-cellEditor>
                         <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="rowData.emailId">
+                             <!-- <input pInputText type="text" [(ngModel)]="rowData.loan.accountNumber">  -->
+                             <p-dropdown [options]="accountNumber" [(ngModel)]="rowData.accountNumber" optionLabel="accountNumber"></p-dropdown>
                         </ng-template>
                         <ng-template pTemplate="output">
-                            {{rowData.emailId}}
+                            {{rowData.loan.accountNumber}}
                         </ng-template>
                     </p-cellEditor>
                 </td>
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="rowData.mobileNumber">
-                        </ng-template>
-                        <ng-template pTemplate="output">
-                            {{rowData.mobileNumber}}
-                        </ng-template>
-                    </p-cellEditor>
-                </td>
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="rowData.address">
-                        </ng-template>
-                        <ng-template pTemplate="output">
-                            {{rowData.address}}
-                        </ng-template>
-                    </p-cellEditor>
-                </td>
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="rowData.isActive">
-                        </ng-template>
-                        <ng-template pTemplate="output">
-                            {{rowData.isActive}}
-                        </ng-template>
-                    </p-cellEditor>
-                </td>
+
+
                 <td style="text-align:center">
                     <button *ngIf="!editing && !editEnabled" pButton type="button" pInitEditableRow icon="pi pi-pencil"
                         class="ui-button-info" style="margin-right: .5em" (click)="onRowEditInit(rowData, ri)"></button>

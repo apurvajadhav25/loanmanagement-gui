@@ -22,20 +22,20 @@ import {CheckboxModule} from 'primeng/checkbox';
 import { MegaMenuModule } from 'primeng/megamenu';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { MenuModule } from 'primeng/menu';
-import { CategoryService } from './service/category/category.service';
 import {DialogModule} from 'primeng/dialog';
 import { TopMenuComponent } from './component/top-menu/top-menu.component';
-import { PaymentComponent } from './component/payment/payment.component';
-import { AddPaymentComponent } from './component/add-payment/add-payment.component';
 import { CustomerComponent } from './component/customer/customer.component';
+import { LoanComponent } from './component/loan/loan.component';
+import { BounceComponent } from './component/bounce/bounce.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     TopMenuComponent,
-    PaymentComponent,
-    AddPaymentComponent,
-    CustomerComponent
+    CustomerComponent,
+    LoanComponent,
+    BounceComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +62,6 @@ import { CustomerComponent } from './component/customer/customer.component';
     DialogModule
   ],
   providers: [
-    CategoryService,
     DialogService
   ],
   bootstrap: [AppComponent]

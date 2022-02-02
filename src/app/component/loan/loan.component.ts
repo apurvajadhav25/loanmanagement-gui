@@ -1,40 +1,51 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { CustomerService } from 'src/app/service/customer/customer.service';
+import { LoanService } from 'src/app/service/loan/loan.service';
 
 @Component({
-  selector: 'app-customer',
-  templateUrl: './customer.component.html',
-  styleUrls: ['./customer.component.css']
+  selector: 'app-loan',
+  templateUrl: './loan.component.html',
+  styleUrls: ['./loan.component.css']
 })
-export class CustomerComponent implements OnInit {
+export class LoanComponent implements OnInit {
 
   editEnabled = false;
   loanForm!: FormGroup;
-  customers: any;
+  loan: any;
   isResult: boolean = true;
   submitted = false;
   display: boolean = false;
 
-  constructor(private service: CustomerService) { }
+  constructor(private service: LoanService) { }
+
 
   ngOnInit(): void {
     this.loanForm = new FormGroup({
-      name: new FormControl(''),
-      isActive: new FormControl(''),
-      emailId: new FormControl(''),
-      mobileNumber: new FormControl(''),
+      accountNumber: new FormControl(''),
+      type: new FormControl(''),
+      roi: new FormControl(''),
+      frequency: new FormControl(''),
+      totalAmount: new FormControl(''),
+      outStandingAmount: new FormControl(''),
+      tenure: new FormControl(''),
+      balanceTenure: new FormControl(''),
       address: new FormControl(''),
-
+      emiAmount: new FormControl(''),
+      interestAmount: new FormControl(''),
+      description: new FormControl(''),
+      firstDisbursal: new FormControl(''),
+      lastDisbursal: new FormControl(''),
+      dueOn: new FormControl(''),
+      isActive: new FormControl(''),
     })
 
-    this.getCustomers();
+    this.get();
   }
 
-  getCustomers() {
-    this.service.getCustomers().subscribe((data) => {
-        this.customers = data;
-        if(this.customers.length===0) {
+  get() {
+    this.service.getLoan().subscribe((data) => {
+        this.loan = data;
+        if(this.loan.length===0) {
           this.isResult=false;
         } else {
           this.isResult=true;
@@ -52,8 +63,8 @@ export class CustomerComponent implements OnInit {
   onRowEditSave(customer: any, index: number) {
     console.log(customer);
     this.editEnabled = false;
-    this.service.editCustomer(customer).subscribe((data) => {
-    this.getCustomers();
+    this.service.editLoan(customer).subscribe((data) => {
+    this.get();
     });
     console.log('Row edit saved');
   }
@@ -66,7 +77,7 @@ export class CustomerComponent implements OnInit {
 
   deleteCustomer(customer: any, index: number) {
     console.log(index);
-    this.service.deleteCustomer(customer).subscribe((data) => {
+    this.service.deleteLoan(customer).subscribe((data) => {
 
     });
     this.ngOnInit();
@@ -82,11 +93,11 @@ export class CustomerComponent implements OnInit {
     if (this.loanForm?.invalid) {
       return;
     }
-    this.service.createCustomer(this.loanForm?.value).subscribe(data=>{
+    this.service.createLoan(this.loanForm?.value).subscribe(data=>{
       this.ngOnInit();
       console.log(data);
     });
-    this.getCustomers();
+    this.get();
     this.display=false;
   }
 

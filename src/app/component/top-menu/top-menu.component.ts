@@ -17,6 +17,12 @@ export class TopMenuComponent implements OnInit {
       {
           label: 'Customer', routerLink: 'customer'
       },
+      {
+        label: 'Loan', routerLink: 'loan'
+      },
+      {
+        label: 'Bounce', routerLink: 'bounce'
+      },
      
   ]
   }
