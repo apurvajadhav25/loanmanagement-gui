@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { LoanService } from 'src/app/service/loan/loan.service';
+import {DropdownModule} from 'primeng/dropdown';
+
 
 @Component({
   selector: 'app-loan',
@@ -15,28 +17,30 @@ export class LoanComponent implements OnInit {
   isResult: boolean = true;
   submitted = false;
   display: boolean = false;
-
-  constructor(private service: LoanService) { }
+  loanTypes: any;
+  frequency1: string = '';
+  amount: any = 4500
+  
+  constructor(private service: LoanService) { 
+    this.loanTypes = ['Pigmy','Daily Interest','Monthly Percentwise'];
+  }
 
 
   ngOnInit(): void {
     this.loanForm = new FormGroup({
       accountNumber: new FormControl(''),
       type: new FormControl(''),
-      roi: new FormControl(''),
+      loanAmount: new FormControl(''),
       frequency: new FormControl(''),
-      totalAmount: new FormControl(''),
-      outStandingAmount: new FormControl(''),
-      tenure: new FormControl(''),
-      balanceTenure: new FormControl(''),
-      address: new FormControl(''),
-      emiAmount: new FormControl(''),
+      noOfInstallments: new FormControl(''),
+      interest: new FormControl(''),
       interestAmount: new FormControl(''),
-      description: new FormControl(''),
-      firstDisbursal: new FormControl(''),
-      lastDisbursal: new FormControl(''),
-      dueOn: new FormControl(''),
-      isActive: new FormControl(''),
+      penaltyAmount: new FormControl(''),
+      principalBalance: new FormControl(''),
+      badDebtAmount: new FormControl(''),
+      collectionDate: new FormControl(''),
+      additionalCharges: new FormControl(''),
+      emiAmount: new FormControl(''),
     })
 
     this.get();
@@ -88,7 +92,7 @@ export class LoanComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.loanForm?.value);
+    console.log(this.loanForm?.value)
     this.submitted = true;
     if (this.loanForm?.invalid) {
       return;
@@ -99,6 +103,20 @@ export class LoanComponent implements OnInit {
     });
     this.get();
     this.display=false;
+  }
+
+  dropdownChange(){
+   let type = this.loanForm?.value.type
+   if(type == "Monthly Percentwise")
+   this.frequency1 = "Monthly"
+   else if(type == "Daily Interest")
+   this.frequency1 = "Weekly"
+   else if(type == "Pigmy")
+   this.frequency1 = "100 days"
+  }
+
+  c(){
+    this.amount = this.loanForm?.value.loanAmount * this.loanForm?.value.interest/100 
   }
 
 }

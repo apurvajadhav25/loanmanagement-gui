@@ -7,31 +7,24 @@
             </div>
 
             <div class="ui-inputgroup row">
-                <input type="text" formControlName="type" size="30" pInputText placeholder="type">  
+                <!-- <input type="text" formControlName="type" size="30" pInputText placeholder="type">   -->
+                <p-dropdown [options]="loanTypes"  formControlName="type" (onClick)="dropdownChange()"></p-dropdown>
             </div>
 
             <div class="ui-inputgroup row">
-                <input type="text" formControlName="roi" size="30" pInputText placeholder="roi">  
+                <input type="text" formControlName="loanAmount" size="30" pInputText placeholder="Loan Amount" (input)="c()">  
             </div>
 
             <div class="ui-inputgroup row">
-                <input type="text" formControlName="frequency" size="30" pInputText placeholder="frequency">  
+                <input type="text" formControlName="interest" size="30" pInputText placeholder="Interest %" (input)="c()">  
             </div>
 
             <div class="ui-inputgroup row">
-                <input type="text" formControlName="totalAmount" size="30" pInputText placeholder="Total Amount">  
+                <input type="text" formControlName="interestAmount" size="30" pInputText placeholder="Interest In Amount" [(ngModel)]="amount" [value]="amount">>  
             </div>
 
             <div class="ui-inputgroup row">
-                <input type="text" formControlName="outStandingAmount" size="30" pInputText placeholder="Outstanding Amount">  
-            </div>
-
-            <div class="ui-inputgroup row">
-                <input type="text" formControlName="tenure" size="30" pInputText placeholder="tenure">  
-            </div>
-
-            <div class="ui-inputgroup row">
-                <input type="text" formControlName="balanceTenure" size="30" pInputText placeholder="balanceTenure">  
+                <input type="text" formControlName="frequency" size="30" pInputText placeholder="Frequency" [(ngModel)]="frequency1" [value]="frequency1">  
             </div>
 
             <div class="ui-inputgroup row">
@@ -39,28 +32,27 @@
             </div>
 
             <div class="ui-inputgroup row">
-                <input type="text" formControlName="interestAmount" size="30" pInputText placeholder="Interest Amount">  
+                <input type="text" formControlName="noOfInstallments" size="30" pInputText placeholder="No of Installments">  
             </div>
 
             <div class="ui-inputgroup row">
-                <input type="text" formControlName="description" size="30" pInputText placeholder="Description">  
+                <input type="text" formControlName="additionalCharges" size="30" pInputText placeholder="Addtional Charges">  
             </div>
 
             <div class="ui-inputgroup row">
-                <input type="text" formControlName="firstDisbursal" size="30" pInputText placeholder="First Disbursal">  
+                <input type="text" formControlName="collectionDate" size="30" pInputText placeholder="Collection Date">  
             </div>
 
             <div class="ui-inputgroup row">
-                <input type="text" formControlName="lastDisbursal" size="30" pInputText placeholder="Last Disbursal">  
-            </div>
-            
-            <div class="ui-inputgroup row">
-                <!-- <input type="text" formControlName="dueOn" size="30" pInputText placeholder="Due On">   -->
-                <p-calendar formControlName="dueOn"  [showIcon]="true"  dateFormat="yy-mm-dd"></p-calendar>
+                <input type="text" formControlName="penaltyAmount" size="30" pInputText placeholder="Penalty Amount">  
             </div>
 
             <div class="ui-inputgroup row">
-                <input type="text" formControlName="isActive" size="30" pInputText placeholder="Is Active">  
+                <input type="text" formControlName="principalBalance" size="30" pInputText placeholder="Principal Balance">  
+            </div>
+
+            <div class="ui-inputgroup row">
+                <input type="text" formControlName="badDebtAmount" size="30" pInputText placeholder="Bad Debt Amount">  
             </div>
 
             <div class="ui-inputgroup button">
@@ -78,19 +70,18 @@
         <ng-template pTemplate="header">
             <tr>
                 <th>Account Number</th>
-                <th>Type</th>
-                <th>Roi</th>
+                <th>Loan Type</th>
+                <th>Loan Amount</th>
+                <th>Interest %</th>
+                <th>Interest in Amount</th>
                 <th>Frequency</th>
-                <th>Outstanding Amount</th>
-                <th>tenure</th>
-                <th>Balance Tenure</th>
                 <th>Emi Amount</th>
-                <th>Interest Amount</th>
-                <th>Description</th>
-                <th>First Disbursal</th>
-                <th>Last Disbursal</th>
-                <th>Due On</th>
-                <th>Is Active</th>
+                <th>No of Installments</th>
+                <th>Addtional Charges</th>
+                <th>Collection Date</th>
+                <th>Penalty Amount</th>
+                <th>Principal Balance</th>
+                <th>Bad Debt Amount</th>    
                 <th></th>
             </tr>
         </ng-template>
@@ -119,60 +110,20 @@
                 <td>
                     <p-cellEditor>
                         <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="rowData.roi">
+                            <input pInputText type="text" [(ngModel)]="rowData.loanAmount">
                         </ng-template>
                         <ng-template pTemplate="output">
-                            {{rowData.roi}}
+                            {{rowData.loanAmount}}
                         </ng-template>
                     </p-cellEditor>
                 </td>
                 <td>
                     <p-cellEditor>
                         <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="rowData.frequency">
+                            <input pInputText type="text" [(ngModel)]="rowData.interest">
                         </ng-template>
                         <ng-template pTemplate="output">
-                            {{rowData.frequency}}
-                        </ng-template>
-                    </p-cellEditor>
-                </td>
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="rowData.outStandingAmount">
-                        </ng-template>
-                        <ng-template pTemplate="output">
-                            {{rowData.outStandingAmount}}
-                        </ng-template>
-                    </p-cellEditor>
-                </td>
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="rowData.tenure">
-                        </ng-template>
-                        <ng-template pTemplate="output">
-                            {{rowData.tenure}}
-                        </ng-template>
-                    </p-cellEditor>
-                </td>
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="rowData.balanceTenure">
-                        </ng-template>
-                        <ng-template pTemplate="output">
-                            {{rowData.balanceTenure}}
-                        </ng-template>
-                    </p-cellEditor>
-                </td>
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="rowData.emiAmount">
-                        </ng-template>
-                        <ng-template pTemplate="output">
-                            {{rowData.emiAmount}}
+                            {{rowData.interest}}
                         </ng-template>
                     </p-cellEditor>
                 </td>
@@ -189,50 +140,81 @@
                 <td>
                     <p-cellEditor>
                         <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="rowData.description">
+                            <input pInputText type="text" [(ngModel)]="rowData.frequency">
                         </ng-template>
                         <ng-template pTemplate="output">
-                            {{rowData.description}}
+                            {{rowData.frequency}}
                         </ng-template>
                     </p-cellEditor>
                 </td>
                 <td>
                     <p-cellEditor>
                         <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="rowData.firstDisbursal">
+                            <input pInputText type="text" [(ngModel)]="rowData.emiAmount">
                         </ng-template>
                         <ng-template pTemplate="output">
-                            {{rowData.firstDisbursal}}
+                            {{rowData.emiAmount}}
                         </ng-template>
                     </p-cellEditor>
                 </td>
                 <td>
                     <p-cellEditor>
                         <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="rowData.lastDisbursal">
+                            <input pInputText type="text" [(ngModel)]="rowData.noOfInstallments">
                         </ng-template>
                         <ng-template pTemplate="output">
-                            {{rowData.lastDisbursal}}
+                            {{rowData.noOfInstallments}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="rowData.addtionalCharges">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{rowData.addtionalCharges}}
                         </ng-template>
                     </p-cellEditor>
                 </td>
                 <td>
                     <p-cellEditor>
                         <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="rowData.dueOn">
+                            <input pInputText type="text" [(ngModel)]="rowData.collectionDate">
                         </ng-template>
                         <ng-template pTemplate="output">
-                            {{rowData.dueOn}}
+                            {{rowData.collectionDate}}
                         </ng-template>
                     </p-cellEditor>
                 </td>
                 <td>
                     <p-cellEditor>
                         <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="rowData.isActive">
+                            <input pInputText type="text" [(ngModel)]="rowData.penaltyAmount">
                         </ng-template>
                         <ng-template pTemplate="output">
-                            {{rowData.isActive}}
+                            {{rowData.penaltyAmount}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="rowData.principalBalance">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{rowData.principalBalance}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="rowData.badDebtAmount">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{rowData.badDebtAmount}}
                         </ng-template>
                     </p-cellEditor>
                 </td>
